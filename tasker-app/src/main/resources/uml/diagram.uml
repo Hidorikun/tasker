@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="0.0" y="425.0">com.hidorikun.tasker.model.entity.Team</node>
+    <node x="356.0" y="425.0">com.hidorikun.tasker.model.entity.Project</node>
+    <node x="348.0" y="0.0">com.hidorikun.tasker.model.entity.Task</node>
+    <node x="197.0" y="425.0">com.hidorikun.tasker.model.entity.Sprint</node>
+    <node x="-11.5" y="-50.0">com.hidorikun.tasker.model.entity.User</node>
+    <node x="553.0" y="425.0">com.hidorikun.tasker.model.entity.Comment</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="Hierarchic Group" zoom="0.30000000000000016" x="450.60119047619014" y="346.9623015873017" />
+  <SelectedNodes>
+    <node>com.hidorikun.tasker.model.entity.User</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
