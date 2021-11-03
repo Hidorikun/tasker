@@ -1,0 +1,76 @@
+<div *ngIf="project$ | async as project">
+  <!-- ============================================================== -->
+  <!-- overview and edit -->
+  <!-- ============================================================== -->
+  <div class="row">
+    <div *ngIf="viewMode" class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex no-block align-items-center">
+            <div class="m-r-20 align-self-center">
+              <span class="lstick"></span>
+              <i-feather name="globe" class="project-icon project-logo"></i-feather>
+            </div>
+            <div class="align-self-center m-l-10">
+              <h2 class="m-t-0">{{project.name}}</h2>
+              <h6 class="text-muted m-t-10 m-b-0">{{project.shortDescription}}</h6>
+            </div>
+            <div *ngIf="isUserAdmin" class="ml-auto">
+              <ul class="list-inline">
+                <a href="javascript:void(0)" class="list-inline-item edit-button" (click)="editDetails()">
+                  <h6 class="text-info"><i class="fa fa-edit font-10 m-r-10"></i>Edit</h6>
+                </a>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!viewMode" class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex no-block align-items-center">
+            <form [formGroup]="projectFormGroup" class="col-12">
+              <div class="form-group">
+                <label for="inputName">Name</label>
+                <input type="text" class="form-control" id="inputName" formControlName="name" required>
+                <small *ngIf="shouldShowErrors('name')" class="form-text text-danger">
+                  {{getErrorMessage("name")}}
+                </small>
+              </div>
+              <div class="form-group">
+                <label for="textArea">Short description</label>
+                <textarea class="form-control" rows="3" id="textArea" formControlName="shortDescription" maxlength="100"></textarea>
+                <small *ngIf="shouldShowErrors('shortDescription')" class="form-text text-danger">
+                  {{getErrorMessage("shortDescription")}}
+                </small>
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn btn-success" (click)="saveDetails()">
+                  <i class="fa fa-check"></i> Save</button>
+                <button type="button" class="btn btn-dark" (click)="cancel()">Cancel</button>
+              </div>
+            </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <!-- ============================================================== -->
+  <!-- chart and stats -->
+  <!-- ============================================================== -->
+  <div class="row">
+    <!-- chart component -->
+    <div class="col-lg-9 col-md-12">
+      <app-project-teams [projectId]="project.id" [isUserAdmin]="isUserAdmin"></app-project-teams>
+      <app-project-admins-table [projectId]="project.id" [isUserAdmin]="isUserAdmin"></app-project-admins-table>
+      <!--      <app-task-state-ratio-chart [projectId]="project.id"></app-task-state-ratio-chart>-->
+    </div>
+    <!-- other chart component -->
+    <div class="col-lg-3 col-md-12">
+      <app-task-type-ratio-chart [projectId]="project.id"></app-task-type-ratio-chart>
+    </div>
+  </div>
+
+</div>

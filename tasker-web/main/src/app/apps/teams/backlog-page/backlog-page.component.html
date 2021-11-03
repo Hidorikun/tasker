@@ -1,0 +1,145 @@
+<div class="card">
+  <div class="card-body" cdkDropListGroup>
+    <ngb-accordion *ngFor="let sprint of (sprints$ | async) as sprints" activeIds="sprints">
+      <ngb-panel id="sprints">
+        <ng-template ngbPanelHeader>
+          <div class="d-flex align-items-center justify-content-between">
+            <span style="display:flex">
+              <h5 class="m-0">{{sprint.name}}</h5>
+              <i-feather class="clickable m-l-5 add-button " name="plus-circle"
+                         (click)="createTask(taskCreationModal, sprint)"></i-feather>
+            </span>
+            <span *ngIf="sprint.number == 0">
+              <button class="btn btn-outline-info" (click)="createSprint()">New sprint</button>
+            </span>
+            <span *ngIf="sprint.number !== 0">
+              <button *ngIf="!sprint.active" class="btn"
+                      [disabled]="!canStartSprint(sprints, sprint)"
+                      [class.btn-outline-secondary]="!canStartSprint(sprints, sprint)"
+                      [class.btn-outline-info]="canStartSprint(sprints, sprint)"
+                      (click)="startSprint(sprint)">
+                Start sprint
+              </button>
+              <button *ngIf="sprint.active" class="btn btn-outline-warning"
+                      (click)="stopSprint(dialogModal, sprint)">
+                Stop sprint
+              </button>
+              <div ngbDropdown class="d-inline-block">
+							<button class="btn btn-outline-info" ngbDropdownToggle>
+								<i-feather name="more-vertical"></i-feather>
+							</button>
+							<div ngbDropdownMenu>
+								<button class="dropdown-item d-flex align-items-center justify-content-between"
+                        (click)="editSprint(sprintCreationModal, sprint)">
+                  Edit <i-feather class="dropdown-item-icon" name="edit"></i-feather>
+                </button>
+                <button class="dropdown-item d-flex align-items-center justify-content-between"
+                        (click)="archiveSprint(dialogModal, sprint)">
+                  Archive <i-feather class="dropdown-item-icon" name="archive"></i-feather>
+                </button>
+                <button class="dropdown-item d-flex align-items-center justify-content-between remove-dropdown-item"
+                        (click)="removeSprint(dialogModal, sprint)">
+                  Remove <i-feather class="dropdown-item-icon" name="trash-2"></i-feather>
+                </button>
+							</div>
+						</div>
+            </span>
+          </div>
+
+          <ul class="list-group pl-0 task-list" cdkDropList
+              (cdkDropListDropped)="moveTaskToSprint($event, sprint)"
+              [cdkDropListData]="tasks.get(sprint.id)">
+            <li class="list-group-item border-bottom border-top-0 border-right-0 border-left-0 cursor-pointer d-flex align-items-center shadow-sm"
+              *ngFor="let task of tasks.get(sprint.id)"
+              cdkDrag (cdkDragStarted)="dragTask(task)"
+              (click)="openTask(task)">
+              <app-task-type-icon [type]="task.type" class="mr-2"></app-task-type-icon>
+                <h6 class="mb-0">{{ task.summary }}</h6>
+                <div class="spacer"></div>
+                <app-user-image [user] = "task.assignee"
+                                initialsStyle="width: 30px; height: 30px"
+                                imageStyle="width: 30px; height: 30px">
+                </app-user-image>
+            </li>
+          </ul>
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-title">
+
+  </div>
+  <div class="card-body" cdkDropListGroup>
+    <div class="d-flex no-block align-items-center">
+      <div class="align-self-center m-l-10">
+        <h4 class="card-title">
+          <span class="lstick"></span>
+          Archive
+          <i-feather class="dropdown-item-icon" name="archive"></i-feather>
+        </h4>
+      </div>
+    </div>
+    <ngb-accordion *ngFor="let sprint of (archivedSprints$ | async) as sprints" activeIds="archived-sprints">
+      <ngb-panel id="archived-sprints">
+        <ng-template ngbPanelHeader>
+          <div class="d-flex align-items-center justify-content-between">
+            <span style="display:flex">
+              <h5 class="m-0">{{sprint.name}}</h5>
+            </span>
+            <span *ngIf="sprint.number !== 0">
+              <div ngbDropdown class="d-inline-block">
+							<button class="btn btn-outline-info" ngbDropdownToggle>
+								<i-feather name="more-vertical"></i-feather>
+							</button>
+							<div ngbDropdownMenu>
+								<button class="dropdown-item d-flex align-items-center justify-content-between"
+                        (click)="editSprint(sprintCreationModal, sprint)">
+                  Edit <i-feather class="dropdown-item-icon" name="edit"></i-feather>
+                </button>
+                <button class="dropdown-item d-flex align-items-center justify-content-between"
+                        (click)="unarchive(dialogModal, sprint)">
+                  Unarchive <i-feather class="dropdown-item-icon" name="corner-left-up"></i-feather>
+                </button>
+                <button class="dropdown-item d-flex align-items-center justify-content-between remove-dropdown-item"
+                        (click)="removeSprint(dialogModal, sprint)">
+                  Remove <i-feather class="dropdown-item-icon" name="trash-2"></i-feather>
+                </button>
+							</div>
+						</div>
+            </span>
+          </div>
+
+          <ul class="list-group pl-0 task-list">
+            <li class="list-group-item border-bottom border-top-0 border-right-0 border-left-0 cursor-pointer d-flex align-items-center shadow-sm"
+                *ngFor="let task of archivedTasks.get(sprint.id)"
+                (click)="openTask(task)">
+              <app-task-type-icon [type]="task.type" class="mr-2"></app-task-type-icon>
+              <h6 class="mb-0">{{ task.summary }}</h6>
+              <div class="spacer"></div>
+              <app-user-image [user] = "task.assignee"
+                              initialsStyle="width: 30px; height: 30px"
+                              imageStyle="width: 30px; height: 30px">
+              </app-user-image>
+            </li>
+          </ul>
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
+  </div>
+</div>
+
+<ng-template #taskCreationModal let-modal>
+  <app-task-creation-modal [modal] = modal></app-task-creation-modal>
+</ng-template>
+
+<ng-template #sprintCreationModal let-modal>
+  <app-sprint-creation-modal [modal] = modal [data]="sprintModalData"></app-sprint-creation-modal>
+</ng-template>
+
+<ng-template #dialogModal let-modal>
+  <app-dialog-modal [modal] = modal [data]="dialogModalData"></app-dialog-modal>
+</ng-template>
+

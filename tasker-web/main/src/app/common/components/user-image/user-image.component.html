@@ -1,0 +1,5 @@
+<span *ngIf="!!user && !!!user.image"  class="round round-danger" [style]="initialsStyle"> {{user.firstName[0] + user.lastName[0]}} </span>
+<img *ngIf="!!user && !!user.image" [src]="getImage(user.image)" alt="user" class="rounded-circle" width="31" [style]="imageStyle">
+<span *ngIf="!!!user"  class="round no-user"  [style]="initialsStyle">
+  <i-feather name="user" class="user icon" style="height:52px"></i-feather>
+</span>

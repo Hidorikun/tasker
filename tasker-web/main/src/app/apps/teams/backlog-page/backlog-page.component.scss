@@ -1,0 +1,40 @@
+.clickable {
+  cursor: pointer;
+}
+
+.add-button {
+  height: 20px;
+  width: 20px;
+  line-height: 0;
+
+  &:hover {
+    color: black;
+  }
+}
+.dropdown-item-icon {
+  height: 20px;
+  width: 20px;
+  line-height: 0;
+}
+
+.remove-dropdown-item {
+  color: red;
+}
+
+::ng-deep {
+  .dropdown-toggle::after {
+    display: none;
+  }
+
+  .dropup .dropdown-toggle::after {
+    display: none;
+  }
+}
+
+.spacer {
+  flex: auto;
+}
+
+.task-list {
+  min-height: 90px;
+}

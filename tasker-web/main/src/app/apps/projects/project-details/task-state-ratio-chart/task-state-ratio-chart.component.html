@@ -1,0 +1,34 @@
+<div class="card">
+  <div class="card-body">
+    <div class="d-flex flex-wrap m-b-30">
+      <div>
+        <h4 class="card-title"><span class="lstick"></span>Task open-closed ratio</h4>
+      </div>
+      <div class="ml-auto">
+        <ul class="list-inline">
+<!--          <li class="list-inline-item">-->
+<!--            <h6 class="text-success"><i class="fa fa-circle font-10 m-r-10 "></i>Sales</h6>-->
+<!--          </li>-->
+<!--          <li class="list-inline-item">-->
+<!--            <h6 class="text-info"><i class="fa fa-circle font-10 m-r-10"></i>Earning (k)</h6>-->
+<!--          </li>-->
+        </ul>
+      </div>
+    </div>
+    <div style="height:370px;" class="d-flex flex-column">
+      <apx-chart [series]="options.series"
+                 [chart]="options.chart"
+                 [xaxis]="options.xaxis"
+                 [yaxis]="options.yaxis"
+                 [grid]="options.grid"
+                 [stroke]="options.stroke"
+                 [tooltip]="options.tooltip"
+                 [dataLabels]="options.dataLabels"
+                 [legend]="options.legend"
+                 [colors]="options.colors"
+                 [fill]="options.fill"
+                 [markers]="options.markers">
+      </apx-chart>
+    </div>
+  </div>
+</div>

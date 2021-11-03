@@ -1,0 +1,37 @@
+<div class="row p-l-10">
+  <h3>Projects</h3>
+  <span class="p-l-10">
+    <i-feather class="clickable" name="plus-circle" (click)="openModal(projectCreationModal)"></i-feather>
+  </span>
+</div>
+<div class="row">
+  <div *ngFor="let project of projects$ | async" class="col-lg-3">
+    <div class="card bg-cyan text-white" (click)="openProject(project)">
+      <div class="card-body">
+        <div class="d-flex no-block align-items-center m-t-5 m-b-5">
+          <i-feather name="globe" class="globe"></i-feather>
+          <div class="m-l-15">
+            <h4 class="font-medium m-b-0 text-white">{{project.name}}</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-3">
+    <div class="card outline" (click)="openModal(projectCreationModal)">
+      <div class="card-body">
+        <div class="d-flex no-block align-items-center m-t-5 m-b-2">
+          <i-feather name="plus-circle"></i-feather>
+          <div class="m-l-15">
+            <h4 class="font-medium m-b-0">New project</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #projectCreationModal let-modal>
+    <app-project-creation-modal [modal] = modal></app-project-creation-modal>
+</ng-template>

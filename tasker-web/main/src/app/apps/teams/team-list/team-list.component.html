@@ -1,0 +1,17 @@
+<div class="row p-l-10">
+  <h3>Teams</h3>
+</div>
+<div *ngIf="teams$ | async as teams"class="row">
+  <div *ngFor="let team of teams" class="col-lg-3">
+    <div (click)="openTeam(team)" class="card bg-orange text-white">
+      <div class="card-body">
+        <div class="d-flex no-block align-items-center m-t-5 m-b-5">
+          <i-feather name="users"></i-feather>
+          <div class="m-l-15">
+            <h4 class="font-medium m-b-0 text-white">{{team.name}}</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

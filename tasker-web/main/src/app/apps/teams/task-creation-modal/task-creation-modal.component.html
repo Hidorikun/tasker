@@ -1,0 +1,43 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Create new task</h4>
+  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="formGroup">
+    <div class="form-group">
+      <label>Type</label>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <label class="input-group-text" for="typeSelect">
+            <app-task-type-icon [type]="formGroup.get('type').value"></app-task-type-icon>
+          </label>
+        </div>
+        <i [ngClass]="formGroup.get('type').value" class="bookmark font-medium text-info mr-2 font-18"></i>
+        <select #typeSelect class="custom-select" id="typeSelect" formControlName="type">
+          <option [value]="taskType.TASK">Task</option>
+          <option [value]="taskType.STORY">Story</option>
+          <option [value]="taskType.DEFECT">Defect</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputSummary">Summary</label>
+      <input type="text" class="form-control" id="inputSummary" formControlName="summary" maxlength="255"required>
+      <small *ngIf="shouldShowErrors('summary')" class="form-text text-danger">
+        {{getErrorMessage("summary")}}
+      </small>
+    </div>
+    <div class="form-group">
+      <label for="textArea">Description</label>
+      <textarea class="form-control" rows="3" id="textArea" formControlName="description" maxlength="65535"></textarea>
+      <small *ngIf="shouldShowErrors('description')" class="form-text text-danger">
+        {{getErrorMessage("description")}}
+      </small>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="save()">Save</button>
+</div>

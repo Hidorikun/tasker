@@ -1,0 +1,24 @@
+<div class="card">
+  <div class="card-body">
+    <h4 class="card-title"><span class="lstick"></span>Task type ratio</h4>
+    <div style="height: 220px">
+      <apx-chart
+        [series]="chart.series"
+                 [chart]="chart.chart"
+                 [dataLabels]="chart.dataLabels"
+                 [legend]="chart.legend"
+                 [colors]="chart.colors"
+                 [stroke]="chart.stroke"
+                 [labels]="chart.labels"
+                 [tooltip]="chart.tooltip"
+                 [plotOptions]="chart.plotOptions">
+      </apx-chart>
+    </div>
+    <table class="table vm font-14 m-b-0">
+      <tr *ngFor="let type of taskTypes">
+        <td class="border-0"><app-task-type-icon [type]="type"></app-task-type-icon> {{type | lowercase}}</td>
+        <td class="text-right font-medium border-0">{{counts.get(type)}} </td>
+      </tr>
+    </table>
+  </div>
+</div>

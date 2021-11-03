@@ -1,0 +1,24 @@
+.card-title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.assigned-user {
+  display: flex;
+  align-items: center;
+}
+
+.media-body {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.comment-title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.comment-date {
+  font-weight: 500;
+  font-size: small;
+}

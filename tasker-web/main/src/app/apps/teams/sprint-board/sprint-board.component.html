@@ -1,0 +1,60 @@
+<div class="card" *ngIf="sprint$ | async as sprint">
+  <div class="card-body" cdkDropListGroup>
+
+    <div class="mb-3">
+      <button class="btn btn-primary" (click)="createTask(taskCreationModal, sprint)">Create Task</button>
+    </div>
+
+    <div class="taskboard p-0">
+      <div class="taskboard-wrapper todos">
+        <div class="taskboard-list full-height">
+          <h6 class="taskboard-header font-weight-bold mt-2">Open</h6>
+          <div class="taskboard-cards" cdkDropList (cdkDropListDropped)="changeState($event, taskState.OPEN)" [cdkDropListData]="tasksOpen">
+            <app-sprint-board-item [task]="task" cdkDrag *ngFor="let task of tasksOpen" (click)="openTask(task)"
+                                   (cdkDragStarted)="dragTask(task)">
+
+            </app-sprint-board-item>
+          </div>
+        </div>
+      </div>
+
+      <div class="taskboard-wrapper inprocess">
+        <div class="taskboard-list full-height">
+          <h6 class="taskboard-header font-weight-bold mt-2">In progress</h6>
+          <div class="taskboard-cards" cdkDropList (cdkDropListDropped)="changeState($event, taskState.IN_PROGRESS)" [cdkDropListData]="tasksInProcess">
+            <app-sprint-board-item [task]="task" cdkDrag *ngFor="let task of tasksInProcess" (click)="openTask(task)"
+                                   (cdkDragStarted)="dragTask(task)">
+            </app-sprint-board-item>
+          </div>
+        </div>
+      </div>
+
+      <div class="taskboard-wrapper pending">
+        <div class="taskboard-list full-height">
+          <h6 class="taskboard-header font-weight-bold mt-2">In review</h6>
+          <div class="taskboard-cards" cdkDropList (cdkDropListDropped)="changeState($event, taskState.IN_REVIEW)" [cdkDropListData]="tasksInReview">
+            <app-sprint-board-item [task]="task" cdkDrag *ngFor="let task of tasksInReview" (click)="openTask(task)"
+                                   (cdkDragStarted)="dragTask(task)">
+            </app-sprint-board-item>
+          </div>
+        </div>
+      </div>
+
+      <div class="taskboard-wrapper taskdone">
+        <div class="taskboard-list full-height">
+          <h6 class="taskboard-header font-weight-bold mt-2">Done</h6>
+          <div class="taskboard-cards" cdkDropList (cdkDropListDropped)="changeState($event, taskState.DONE)" [cdkDropListData]="tasksDone">
+            <app-sprint-board-item [task]="task" cdkDrag *ngFor="let task of tasksDone" (click)="openTask(task)"
+                                   (cdkDragStarted)="dragTask(task)">
+            </app-sprint-board-item>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<ng-template #taskCreationModal let-modal>
+  <app-task-creation-modal [modal] = modal></app-task-creation-modal>
+</ng-template>

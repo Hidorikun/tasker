@@ -1,0 +1,45 @@
+<div class="card">
+  <div class="card-body">
+    <div class="d-flex no-block align-items-center">
+      <div class="align-self-center m-l-10">
+        <h4 class="card-title"><span class="lstick"></span>Admins</h4>
+      </div>
+      <div *ngIf="isUserAdmin" class="ml-auto">
+        <ul class="list-inline">
+          <a href="javascript:void(0)" class="list-inline-item edit-button" (click)="addAdmin(addAdminModal)">
+            <h6 class="text-info"><i class="fa fa-plus font-10 m-r-10"></i>Add admin</h6>
+          </a>
+        </ul>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table bg-white table-hover align-middle mb-0 no-wrap">
+        <thead>
+        <tr>
+          <th>Member</th>
+          <th scope="col">Email</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let admin of admins$ | async" (click)="openUserDetails(admin)" class="cursor-pointer">
+          <td class="members-column">
+            <app-user-image [user] = "admin" class="mr-2" initialsStyle="width: 45px; height: 45px" imageStyle="width: 45px; height: 45px"></app-user-image>
+            <span class="text-dark font-medium font-16">{{ admin.firstName + ' ' + admin.lastName }}</span>
+          </td>
+          <td class="align-middle">
+        <span>
+            <span class="badge badge-light text-dark rounded-pill font-16 mr-1">
+                <i-feather name="Mail" class="feather-sm"></i-feather>
+            </span>
+          {{ admin.email }}
+        </span>
+          </td>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<ng-template #addAdminModal let-modal>
+  <app-add-user-via-email-modal [modal] = modal ></app-add-user-via-email-modal>
+</ng-template>

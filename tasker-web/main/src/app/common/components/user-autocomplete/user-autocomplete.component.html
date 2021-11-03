@@ -1,0 +1,25 @@
+<input
+  id="typeahead-focus"
+  type="text"
+  class="form-control"
+  [(ngModel)]="user"
+  [ngbTypeahead]="search"
+  (focus)="focus$.next($event.target.value)"
+  (click)="click$.next($event.target.value)"
+  (ngModelChange)="onModelChange()"
+  [resultTemplate]="rt"
+  [inputFormatter]="formatter"
+  (blur)="onBlur()"
+  #instance="ngbTypeahead"
+/>
+
+<ng-template #rt let-user="result" let-t="term">
+  <div style="display:flex">
+    <app-user-image [user] = "user" class="mr-2"
+                    initialsStyle="width: 30px; height: 30px"
+                    imageStyle="width: 30px; height: 30px">
+    </app-user-image>
+    <span>{{ user.firstName }} {{user.lastName}}</span>
+  </div>
+</ng-template>
+

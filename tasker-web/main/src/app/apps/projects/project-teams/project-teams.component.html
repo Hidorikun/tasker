@@ -1,0 +1,39 @@
+<div class="card">
+  <div class="card-body">
+    <div class="d-flex no-block align-items-center">
+      <div class="align-self-center m-l-10">
+        <h4 class="card-title"><span class="lstick"></span>Assigned teams</h4>
+      </div>
+      <div *ngIf="isUserAdmin"  class="ml-auto">
+        <ul class="list-inline">
+          <a href="javascript:void(0)" class="list-inline-item edit-button" (click)="openModal(teamCreationModal)">
+            <h6 class="text-info"><i class="fa fa-plus font-10 m-r-10"></i>New team</h6>
+          </a>
+        </ul>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table *ngIf="teams$ | async as teams" class="table table-hover earning-box v-middle no-wrap">
+        <thead>
+          <tr>
+            <th colspan="2">Team</th>
+            <th>Size</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let team of teams" class="team-row" (click)="openTeam(team)">
+            <td style="width:50px;"><i-feather class="team-icon" name="users"></i-feather></td>
+            <td>
+              <h5 class="mb-0">{{team.name}}</h5>
+            </td>
+            <td>{{team.size}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<ng-template #teamCreationModal let-modal>
+  <app-team-creation-modal [modal] = modal></app-team-creation-modal>
+</ng-template>

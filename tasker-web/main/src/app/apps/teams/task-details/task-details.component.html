@@ -1,0 +1,149 @@
+<div class="row" *ngIf="task$ | async as task">
+  <div class="col-lg-8">
+    <div *ngIf="viewMode" class="card">
+      <div class="card-body">
+        <h4 class="card-title">
+          <span>
+            <app-task-type-icon [type]="task.type" class="mr-2"></app-task-type-icon>
+            {{task.summary}}
+          </span>
+          <ul class="list-inline">
+            <a href="javascript:void(0)" class="list-inline-item edit-button" (click)="editDetails()">
+              <h6 class="text-info"><i class="fa fa-edit font-10 m-r-10"></i>Edit</h6>
+            </a>
+          </ul>
+        </h4>
+        <span [innerHtml]="task.description"></span>
+      </div>
+    </div>
+    <div *ngIf="!viewMode" class="card">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex no-block align-items-center">
+            <form [formGroup]="taskDetailsFormGroup" class="col-12">
+              <div class="form-group">
+                <label>Type</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <label class="input-group-text" for="typeSelect">
+                      <app-task-type-icon [type]="taskDetailsFormGroup.get('type').value"></app-task-type-icon>
+                    </label>
+                  </div>
+                  <select class="custom-select" id="typeSelect" formControlName="type">
+                    <option [value]="taskType.TASK">Task</option>
+                    <option [value]="taskType.STORY">Story</option>
+                    <option [value]="taskType.DEFECT">Defect</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputSummary">Summary</label>
+                <input type="text" class="form-control" id="inputSummary" formControlName="summary" required max="255">
+                <small *ngIf="shouldShowErrors('summary')" class="form-text text-danger">
+                  {{getErrorMessage("summary")}}
+                </small>
+              </div>
+              <div class="form-group">
+                <label for="inputDescription">Description</label>
+                <ckeditor id="inputDescription"
+                          formControlName="description"
+                          [config]="editorConfig"
+                          [editor]="Editor"></ckeditor>
+                <small *ngIf="shouldShowErrors('description')" class="form-text text-danger">
+                  {{getErrorMessage("description")}}
+                </small>
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn btn-success" (click)="updateDetails()">
+                  <i class="fa fa-check"></i> Save</button>
+                <button type="button" class="btn btn-dark" (click)="cancel()">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="task.comments.length > 0" class="card">
+      <div class="card-body">
+        <h4 class="card-title">Comments</h4>
+        <ul *ngFor="let comment of task.comments" class="list-unstyled m-t-40">
+          <span>
+            <li class="media">
+              <app-user-image class="m-r-15" [user]="comment.owner"
+                              imageStyle="border-radius: 0 !important; width: 60px; height: 60px;"
+                              initialsStyle="border-radius: 0 !important; width: 60px; height: 60px;"
+              ></app-user-image>
+              <div class="media-body">
+                <div class="comment-title">
+                  <h5 class="mt-0 mb-1">{{comment.owner.firstName}} {{comment.owner.lastName}} </h5>
+                  <span class="comment-date">{{comment.createdOn | date : 'medium'}}</span>
+                </div>
+
+                <span [innerHtml]="comment.content"></span>
+              </div>
+            </li>
+            <hr>
+          </span>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <h4 class="m-b-20">Write a comment</h4>
+        <form [formGroup]="commentFormGroup">
+          <ckeditor formControlName="comment"
+                    [config]="editorConfig"
+                    [editor]="Editor"></ckeditor>
+          <button type="button" class="m-t-20 btn waves-effect waves-light btn-success" (click)="reply()">Reply</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="card">
+
+      <div class="card-body">
+        <div class="form-group">
+          <label>State</label>
+          <div class="input-group">
+            <select class="custom-select" [(ngModel)]="taskTmp.state" (ngModelChange)="changeState()">
+              <option [value]="taskState.OPEN">Open</option>
+              <option [value]="taskState.IN_PROGRESS">In progress</option>
+              <option [value]="taskState.IN_REVIEW">In review</option>
+              <option [value]="taskState.DONE">Done</option>
+            </select>
+          </div>
+
+          <label>Estimation</label>
+          <div class="input-group">
+            <input class="form-control" type="number" [(ngModel)]="taskTmp.estimation" (ngModelChange)="changeEstimation()">
+          </div>
+        </div>
+        <h5 class="p-t-20">Reporter</h5>
+        <div *ngIf="!!task.reporter" class="assigned-user">
+          <app-user-image [user] = "task.reporter" class="mr-2"
+                          initialsStyle="width: 45px; height: 45px"
+                          imageStyle="width: 45px; height: 45px">
+          </app-user-image>
+          {{task.reporter.firstName}} {{task.reporter.lastName}}
+        </div>
+
+        <h5 class="m-t-30">Assignee</h5>
+        <div class="assigned-user">
+          <app-user-image [user] = "taskTmp.assignee" class="mr-2"
+                          initialsStyle="width: 45px; height: 45px"
+                          imageStyle="width: 45px; height: 45px">
+          </app-user-image>
+          <app-user-autocomplete
+            [users]="assignableMembers$ | async"
+            [user]="task.assignee"
+            (valueChanged)="selectAssignee($event)"
+            (blur)="updateAssignee()"
+          >
+          </app-user-autocomplete>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

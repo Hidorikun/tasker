@@ -1,0 +1,26 @@
+.clickable {
+  cursor: pointer;
+
+  &:hover {
+    color: black;
+  }
+}
+
+.card:hover {
+  cursor: pointer;
+  animation: shadow-drop-bottom 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+@keyframes shadow-drop-bottom {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+  100% {
+    box-shadow: 0 12px 20px -12px rgba(0, 0, 0, 0.35);
+  }
+}
+
+.outline {
+  background: none;
+  border: 2px dashed gainsboro;
+}

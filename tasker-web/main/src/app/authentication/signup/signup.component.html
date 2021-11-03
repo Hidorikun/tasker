@@ -1,0 +1,83 @@
+<div class="auth-wrapper d-flex no-block justify-content-center align-items-center"
+     style="background:url(assets/images/background/login-register.jpg) no-repeat center center;">
+  <div class="auth-box m-3 m-md-0">
+    <div>
+      <div class="logo">
+        <span class="db"><img src="assets/images/icon/t-logo.png" alt="logo" width="40px" height="40px"/></span>
+        <h5 class="font-medium m-b-5 m-t-20">Sign Up to Tasker</h5>
+      </div>
+      <!-- Form -->
+      <div class="row">
+        <div class="col-12">
+          <form class="form-horizontal m-t-20" [formGroup]="signupFormGroup">
+            <div class="form-group row">
+              <div class="col-6">
+                <input class="form-control" type="text" required placeholder="First name" formControlName="firstName">
+                <small class="form-text text-danger" *ngIf="shouldShowErrors('firstName')">
+                  {{getErrorMessage('firstName')}}
+                </small>
+              </div>
+              <div class="col-6">
+                <input class="form-control" type="text" required placeholder="Last name" formControlName="lastName">
+                <small class="form-text text-danger" *ngIf="shouldShowErrors('lastName')">
+                  {{getErrorMessage('lastName')}}
+                </small>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-12">
+                <input class="form-control" type="text" required placeholder="Username" formControlName="username">
+                <small class="form-text text-danger" *ngIf="shouldShowErrors('username')">
+                  {{getErrorMessage('username')}}
+                </small>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-12 ">
+                <input class="form-control" type="text" required placeholder="Email" formControlName="email">
+                <small class="form-text text-danger" *ngIf="shouldShowErrors('email')">
+                  {{getErrorMessage('email')}}
+                </small>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-12 ">
+                <input class="form-control" type="password" required placeholder="Password" formControlName="password">
+                <small class="form-text text-danger" *ngIf="shouldShowErrors('password')">
+                  {{getErrorMessage('password')}}
+                </small>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-12 ">
+                <input class="form-control" type="password" required placeholder="Confirm Password"
+                       formControlName="confirmPassword">
+                <small class="form-text text-danger" *ngIf="shouldShowErrors('confirmPassword')">
+                  {{getErrorMessage('confirmPassword')}}
+                </small>
+              </div>
+            </div>
+
+            <div class="form-group text-center ">
+              <div class="col-xs-12">
+                <a class="btn btn-block btn-lg btn-info" (click)="onSignup()">SIGN UP</a>
+              </div>
+            </div>
+            <div class="form-group m-b-0 ">
+              <div class="col-sm-12 text-center ">
+                <small class="form-text text-danger">
+                  {{registrationError$ | async}}
+                </small>
+              </div>
+            </div>
+            <div class="form-group m-b-0 m-t-10 ">
+              <div class="col-sm-12 text-center ">
+                Already have an account? <a href="/authentication/login" class="text-info m-l-5 "><b>Sign In</b></a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

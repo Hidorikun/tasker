@@ -1,0 +1,21 @@
+@import '../../../../assets/scss/_variable.scss';
+
+.team-actions {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.team-add {
+
+}
+.team-row {
+  cursor: pointer;
+}
+
+.team-icon {
+  color: $orange;
+}
+
+.team-remove {
+  color: $danger;
+}

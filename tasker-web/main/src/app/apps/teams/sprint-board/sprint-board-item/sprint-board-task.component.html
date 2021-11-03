@@ -1,0 +1,12 @@
+<div class="taskboard-task cursor-pointer">
+  <div class="taskboard-task-title font-medium">
+  <span>
+    <app-task-type-icon [type]="task.type"></app-task-type-icon>
+    {{ task.summary }}
+  </span>
+    <app-user-image [user]="task.assignee" class="mr-2"
+                    initialsStyle="width: 45px; height: 45px"
+                    imageStyle="width: 45px; height: 45px">
+    </app-user-image>
+  </div>
+</div>
