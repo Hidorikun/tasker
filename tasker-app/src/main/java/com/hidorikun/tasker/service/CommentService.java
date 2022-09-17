@@ -1,9 +1,7 @@
 package com.hidorikun.tasker.service;
 
 import com.hidorikun.tasker.model.dto.CommentDTO;
-import com.hidorikun.tasker.model.dto.UserDTO;
 import com.hidorikun.tasker.model.entity.Comment;
-import com.hidorikun.tasker.model.entity.User;
 import com.hidorikun.tasker.repository.CommentRepository;
 import com.hidorikun.tasker.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.zip.DataFormatException;
 
 @Service
@@ -29,6 +24,21 @@ public class CommentService {
     @Autowired
     private TaskService taskService;
 
+    public static CommentDTO commentToDTO(Comment comment) {
+
+        if (comment == null) {
+            return null;
+        }
+
+        return CommentDTO.builder()
+                .id(comment.getId())
+                .content(comment.getContent())
+                .owner(UserService.userToDTO(comment.getOwner()))
+                .taskId(comment.getTask().getId())
+                .createdOn(comment.getCreatedOn())
+                .build();
+    }
+
     @Transactional(readOnly = true)
     public List<Comment> getCommentsForTask(Long taskId) {
         return this.commentRepository.getCommentsForTask(taskId);
@@ -41,24 +51,6 @@ public class CommentService {
 
         return this.commentRepository.save(comment);
     }
-
-    public static CommentDTO commentToDTO(Comment comment) throws DataFormatException, IOException {
-
-        if (comment == null) {
-            return null;
-        }
-
-        CommentDTO result = new CommentDTO();
-
-        result.setId(comment.getId());
-        result.setContent(comment.getContent());
-        result.setOwner(UserService.userToDTO(comment.getOwner()));
-        result.setTaskId(comment.getTask().getId());
-        result.setCreatedOn(comment.getCreatedOn());
-
-        return result;
-    }
-
 
     public Comment dtoToComment(CommentDTO dto) {
 

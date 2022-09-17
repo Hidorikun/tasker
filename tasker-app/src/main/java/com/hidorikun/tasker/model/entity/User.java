@@ -1,6 +1,8 @@
 package com.hidorikun.tasker.model.entity;
 
 
+import lombok.Builder;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,7 +14,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+@Data
 @Entity
+@Builder
 public class User implements UserDetails {
 
     @Id
@@ -43,40 +47,28 @@ public class User implements UserDetails {
     @NotBlank
     private String password;
 
+    @Builder.Default
     @ManyToMany(mappedBy = "members")
-    private Set<Team> teams;
+    private Set<Team> teams = new HashSet<>();
 
     @ManyToMany(mappedBy = "admins")
     private Set<Project> projects;
 
+    @Builder.Default
     @OneToMany(
             mappedBy = "reporter",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private Set<Task> reportedTasks;
+    private Set<Task> reportedTasks = new HashSet<>();
 
+    @Builder.Default
     @OneToMany(
             mappedBy = "assignee",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private Set<Task> assignedTasks;
-
-    public User() {
-        this.teams = new HashSet<>();
-        this.reportedTasks = new HashSet<>();
-        this.assignedTasks = new HashSet<>();
-    }
-
-    public User(String username, String firstName, String lastName, String email, String password) {
-        this.username = username;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.teams = new HashSet<>();
-    }
+    private Set<Task> assignedTasks = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -86,10 +78,6 @@ public class User implements UserDetails {
     @Override
     public String getPassword() {
         return password;
-    }
-
-    public String getUsername() {
-        return username;
     }
 
     @Override
@@ -112,76 +100,5 @@ public class User implements UserDetails {
         return true;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
-
-    public Set<Team> getTeams() {
-        return teams;
-    }
-
-    public void setTeams(Set<Team> teams) {
-        this.teams = teams;
-    }
-
-    public Set<Project> getProjects() {
-        return projects;
-    }
-
-    public void setProjects(Set<Project> projects) {
-        this.projects = projects;
-    }
-
-    public Set<Task> getReportedTasks() {
-        return reportedTasks;
-    }
-
-    public void setReportedTasks(Set<Task> reportedTasks) {
-        this.reportedTasks = reportedTasks;
-    }
-
-    public Set<Task> getAssignedTasks() {
-        return assignedTasks;
-    }
-
-    public void setAssignedTasks(Set<Task> assignedTasks) {
-        this.assignedTasks = assignedTasks;
-    }
 }
 

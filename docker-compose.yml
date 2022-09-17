@@ -23,12 +23,12 @@ services:
     depends_on: 
       - db
      
-  tasker-web:
-    container_name: tasker-web
-    build: ./tasker-web/package/main    
+# tasker-web:
+#   container_name: tasker-web
+#   build: ./tasker-web/package/main    
 #    volumes:
 #      - ./tasker-web:/usr/src/tasker-web  
-    ports:
-      - 4200:4200
+#    ports:
+#      - 4200:4200
     
       

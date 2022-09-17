@@ -2,6 +2,7 @@ package com.hidorikun.tasker.model.entity;
 
 import com.hidorikun.tasker.model.enums.TaskState;
 import com.hidorikun.tasker.model.enums.TaskType;
+import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -11,6 +12,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+@Data
 @Entity
 public class Task {
 
@@ -64,103 +66,4 @@ public class Task {
         this.comments = new HashSet<>();
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Sprint getSprint() {
-        return sprint;
-    }
-
-    public void setSprint(Sprint sprint) {
-        this.sprint = sprint;
-    }
-
-    public TaskState getState() {
-        return state;
-    }
-
-    public void setState(TaskState state) {
-        this.state = state;
-    }
-
-    public Long getPosition() {
-        return position;
-    }
-
-    public void setPosition(Long position) {
-        this.position = position;
-    }
-
-    public User getReporter() {
-        return reporter;
-    }
-
-    public void setReporter(User reporter) {
-        this.reporter = reporter;
-    }
-
-    public User getAssignee() {
-        return assignee;
-    }
-
-    public void setAssignee(User assignee) {
-        this.assignee = assignee;
-    }
-
-    public Set<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
-    }
-
-    public TaskType getType() {
-        return type;
-    }
-
-    public void setType(TaskType type) {
-        this.type = type;
-    }
-
-    public Date getCreatedOn() {
-        return createdOn;
-    }
-
-    public void setCreatedOn(Date createdOn) {
-        this.createdOn = createdOn;
-    }
-
-    public Date getClosedOn() {
-        return closedOn;
-    }
-
-    public void setClosedOn(Date closedOn) {
-        this.closedOn = closedOn;
-    }
-
-    public Long getEstimation() {
-        return estimation;
-    }
-
-    public void setEstimation(Long estimation) {
-        this.estimation = estimation;
-    }
 }

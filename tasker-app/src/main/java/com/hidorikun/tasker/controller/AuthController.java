@@ -1,9 +1,9 @@
 package com.hidorikun.tasker.controller;
 
-import com.hidorikun.tasker.model.entity.User;
 import com.hidorikun.tasker.model.dto.LoginDTO;
 import com.hidorikun.tasker.model.dto.LoginResponseDTO;
 import com.hidorikun.tasker.model.dto.RegisterDTO;
+import com.hidorikun.tasker.model.entity.User;
 import com.hidorikun.tasker.service.UserService;
 import com.hidorikun.tasker.util.JwtUtil;
 import org.slf4j.Logger;
@@ -48,15 +48,13 @@ public class AuthController {
 
     @PostMapping(value = "/register")
     public ResponseEntity<LoginResponseDTO> register(@RequestBody RegisterDTO registerDTO) {
-        User newUser = new User(
-            registerDTO.getUsername(),
-            registerDTO.getFirstName(),
-            registerDTO.getLastName(),
-            registerDTO.getEmail(),
-            registerDTO.getPassword()
-        );
-
-        newUser.setImage(null);
+        User newUser = User.builder()
+            .username(registerDTO.getUsername())
+            .firstName(registerDTO.getFirstName())
+            .lastName(registerDTO.getLastName())
+            .email(registerDTO.getEmail())
+            .password(registerDTO.getPassword())
+            .build();
 
         userService.addUser(newUser);
 

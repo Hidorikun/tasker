@@ -1,0 +1,139 @@
+{
+  "main": {
+    "id": "c0cb570dad3033c2",
+    "type": "split",
+    "children": [
+      {
+        "id": "e559d7b20f9feacf",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "Untitled.md",
+            "mode": "source",
+            "source": false
+          }
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "17f0a5fed272e15d",
+    "type": "split",
+    "children": [
+      {
+        "id": "f32b47796dd47a97",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "3bcdb2e23f061c49",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "102dd09e10c0060a",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "89c4a3c672829320",
+            "type": "leaf",
+            "state": {
+              "type": "starred",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 303.5
+  },
+  "right": {
+    "id": "67bea9478b634bc7",
+    "type": "split",
+    "children": [
+      {
+        "id": "a2e9f69a96222861",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "21ea4811fd8833f5",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Untitled.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "c2144980bbafe17e",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Untitled.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "ea08d6d4da2c7af5",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "e57ac7fc45410b2d",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Untitled.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "active": "e559d7b20f9feacf",
+  "lastOpenFiles": [
+    "Relational Database Service (RDS).md",
+    "Hosting online.md",
+    "How to setup.md",
+    "Posibilitiese of improvement.md",
+    "Start tasker-app from Intellij.md"
+  ]
+}

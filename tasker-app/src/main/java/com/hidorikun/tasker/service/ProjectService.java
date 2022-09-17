@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class ProjectService {
@@ -32,6 +33,15 @@ public class ProjectService {
 
     @Autowired
     private EmailService emailService;
+
+    public static ProjectDTO projectToDTO(Project project) {
+        return ProjectDTO.builder()
+            .id(project.getId())
+            .name(project.getName())
+            .shortDescription(project.getShortDescription())
+            .adminIds(project.getAdmins().stream().map(User::getId).collect(Collectors.toSet()))
+            .build();
+    }
 
     @Transactional(readOnly = true)
     public List<Project> getProjects() {
@@ -111,30 +121,15 @@ public class ProjectService {
         return userService.getAdminsForProject(projectId);
     }
 
-    public static ProjectDTO projectToDTO(Project project) {
-        ProjectDTO dto = new ProjectDTO();
-
-        dto.setId(project.getId());
-        dto.setName(project.getName());
-        dto.setShortDescription(project.getShortDescription());
-
-        Set<Long> adminIds = new HashSet<>();
-        project.getAdmins().forEach(admin -> adminIds.add(admin.getId()));
-        dto.setAdminIds(adminIds);
-
-        return dto;
-    }
-
-
     public void requestAdmin(ParticipationRequestDTO participationRequestDTO) throws MessagingException {
         User requester = this.userService.getCurrentUser();
         Project project = this.getProject(participationRequestDTO.getUnitId());
 
         this.emailService.sendJoinProjectEmail(
-            requester,
-            project,
-            participationRequestDTO.getEmail(),
-            participationRequestDTO.getRegisterUrl()
+                requester,
+                project,
+                participationRequestDTO.getEmail(),
+                participationRequestDTO.getRegisterUrl()
         );
     }
 

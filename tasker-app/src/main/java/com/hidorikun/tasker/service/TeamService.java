@@ -1,9 +1,11 @@
 package com.hidorikun.tasker.service;
 
+import com.hidorikun.tasker.model.dto.ParticipationRequestDTO;
+import com.hidorikun.tasker.model.dto.TeamDTO;
+import com.hidorikun.tasker.model.dto.UserDTO;
 import com.hidorikun.tasker.model.entity.Sprint;
 import com.hidorikun.tasker.model.entity.Team;
 import com.hidorikun.tasker.model.entity.User;
-import com.hidorikun.tasker.model.dto.*;
 import com.hidorikun.tasker.repository.SprintRepository;
 import com.hidorikun.tasker.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +13,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
-import java.io.IOException;
 import java.security.InvalidParameterException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.zip.DataFormatException;
 
 @Service
 public class TeamService {
@@ -84,32 +87,25 @@ public class TeamService {
         return teamRepository.getTeamsForUser(user.getUsername());
     }
 
-    public TeamDTO teamToDTO(Team team) throws DataFormatException, IOException {
+    public TeamDTO teamToDTO(Team team) {
 
         if (team == null) {
             return null;
         }
 
-        Set<UserDTO> members = new HashSet<>();
-        for (User user : team.getMembers()) {
-            members.add(UserService.userToDTO(user));
-        }
+        Set<UserDTO> members = team.getMembers().stream().map(UserService::userToDTO).collect(Collectors.toSet());
+        Sprint activeSprint = this.sprintRepository.getActiveSprintForTeam(team.getId());
 
-        List<Sprint> activeSprints = this.sprintRepository.getActiveSprintForTeam(team.getId());
-        Long activeSprintId = activeSprints.size() > 0 ? activeSprints.get(0).getId() : null;
-
-        TeamDTO dto = new TeamDTO();
-
-        dto.setId(team.getId());
-        dto.setName(team.getName());
-        dto.setShortDescription(team.getShortDescription());
-        dto.setMembers(members);
-        dto.setProjectId(team.getProject().getId());
-        dto.setSprintsIds(team.getSprints().stream().map(Sprint::getId).collect(Collectors.toSet()));
-        dto.setActiveSprintId(activeSprintId);
-        dto.setSize(members.size());
-
-        return dto;
+        return TeamDTO.builder()
+            .id(team.getId())
+            .name(team.getName())
+            .shortDescription(team.getShortDescription())
+            .members(members)
+            .projectId(team.getProject().getId())
+            .sprintsIds(team.getSprints().stream().map(Sprint::getId).collect(Collectors.toSet()))
+            .activeSprintId(activeSprint != null ? activeSprint.getId() : null)
+            .size(members.size())
+            .build();
     }
 
     public Team dtoToTeam(TeamDTO dto) {

@@ -10,10 +10,8 @@ import com.hidorikun.tasker.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.DataFormatException;
 
 @RestController
 @RequestMapping("/tasks")
@@ -30,14 +28,14 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TaskDTO> getTask(@PathVariable Long id) throws DataFormatException, IOException {
+    public ResponseEntity<TaskDTO> getTask(@PathVariable Long id) {
         Task task = taskService.getTask(id);
 
         return ResponseEntity.ok(taskService.taskToDTO(task));
     }
 
     @GetMapping("/sprint/{sprintId}")
-    public ResponseEntity<List<TaskDTO>> getTasksForSprint(@PathVariable long sprintId) throws DataFormatException, IOException {
+    public ResponseEntity<List<TaskDTO>> getTasksForSprint(@PathVariable long sprintId) {
         List<TaskDTO> tasks = new ArrayList<>();
 
         for (Task task : taskService.getTasksForSprint(sprintId)) {
@@ -54,7 +52,7 @@ public class TaskController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<TaskDTO> addTask(@RequestBody TaskDTO newTask) throws DataFormatException, IOException {
+    public ResponseEntity<TaskDTO> addTask(@RequestBody TaskDTO newTask) {
         User currentUser = userService.getCurrentUser();
         Task task = taskService.addTask(this.taskService.dtoToTask(newTask), currentUser);
 
@@ -62,7 +60,7 @@ public class TaskController {
     }
 
     @PostMapping("/comments")
-    public ResponseEntity<TaskDTO> addComment(@RequestBody CommentDTO dto) throws DataFormatException, IOException {
+    public ResponseEntity<TaskDTO> addComment(@RequestBody CommentDTO dto) {
         Comment comment = commentService.addComment(commentService.dtoToComment(dto));
         Task task = comment.getTask();
 
@@ -70,14 +68,14 @@ public class TaskController {
     }
 
     @PutMapping("/")
-    public ResponseEntity<TaskDTO> updateTask(@RequestBody TaskDTO dto) throws DataFormatException, IOException {
+    public ResponseEntity<TaskDTO> updateTask(@RequestBody TaskDTO dto) {
         Task updatedTask = taskService.updateTaskDetails(dto);
 
         return ResponseEntity.ok(taskService.taskToDTO(updatedTask));
     }
 
     @PostMapping("/sprint")
-    public ResponseEntity<List<TaskDTO>> getTasksForSprints(@RequestBody List<Long> sprintsIds) throws DataFormatException, IOException {
+    public ResponseEntity<List<TaskDTO>> getTasksForSprints(@RequestBody List<Long> sprintsIds) {
         List<TaskDTO> tasks = new ArrayList<>();
 
         for (Task task : taskService.getTasksForSprints(sprintsIds)) {
@@ -89,42 +87,42 @@ public class TaskController {
     }
 
     @PostMapping("/state")
-    public ResponseEntity<TaskDTO> updateTaskState(@RequestBody UpdateTaskStateDTO dto) throws DataFormatException, IOException {
+    public ResponseEntity<TaskDTO> updateTaskState(@RequestBody UpdateTaskStateDTO dto) {
         Task task = taskService.updateTaskState(dto.getTaskId(), dto.getState());
 
         return ResponseEntity.ok(taskService.taskToDTO(task));
     }
 
     @PostMapping("/estimation")
-    public ResponseEntity<TaskDTO> updateTaskEstimation(@RequestBody UpdateTaskEstimationDTO dto) throws DataFormatException, IOException {
+    public ResponseEntity<TaskDTO> updateTaskEstimation(@RequestBody UpdateTaskEstimationDTO dto) {
         Task task = taskService.updateTaskEstimation(dto.getTaskId(), dto.getEstimation());
 
         return ResponseEntity.ok(taskService.taskToDTO(task));
     }
 
     @PostMapping("/sprint/transition")
-    public ResponseEntity<TaskDTO> updateTaskSprint(@RequestBody UpdateTaskSprintDTO dto) throws DataFormatException, IOException {
+    public ResponseEntity<TaskDTO> updateTaskSprint(@RequestBody UpdateTaskSprintDTO dto) {
         Task task = taskService.updateTaskSprint(dto.getTaskId(), dto.getSprintId(), dto.getPosition());
 
         return ResponseEntity.ok(taskService.taskToDTO(task));
     }
 
     @PostMapping("/reporter")
-    public ResponseEntity<TaskDTO> updateTaskReporter(@RequestBody UserAndTaskDTO dto) throws DataFormatException, IOException {
+    public ResponseEntity<TaskDTO> updateTaskReporter(@RequestBody UserAndTaskDTO dto) {
         Task task = taskService.updateTaskReporter(dto.getTaskId(), dto.getUsername());
 
         return ResponseEntity.ok(taskService.taskToDTO(task));
     }
 
     @PutMapping("/assignee")
-    public ResponseEntity<TaskDTO> updateTaskAssignee(@RequestBody UserAndTaskDTO dto) throws DataFormatException, IOException {
+    public ResponseEntity<TaskDTO> updateTaskAssignee(@RequestBody UserAndTaskDTO dto) {
         Task task = taskService.updateTaskAssignee(dto.getTaskId(), dto.getUsername());
 
         return ResponseEntity.ok(taskService.taskToDTO(task));
     }
 
     @GetMapping("/assignable/{taskId}")
-    public ResponseEntity<List<UserDTO>> getAssignableMembers(@PathVariable Long taskId) throws DataFormatException, IOException {
+    public ResponseEntity<List<UserDTO>> getAssignableMembers(@PathVariable Long taskId) {
         List<UserDTO> users = new ArrayList<>();
 
         for (User user : taskService.getAssignableMembers(taskId)) {

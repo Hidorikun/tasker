@@ -1,10 +1,11 @@
 package com.hidorikun.tasker.service;
 
 import com.hidorikun.tasker.errorhandling.DuplicateException;
-import com.hidorikun.tasker.model.entity.User;
 import com.hidorikun.tasker.model.dto.UserDTO;
+import com.hidorikun.tasker.model.entity.User;
 import com.hidorikun.tasker.repository.UserRepository;
 import com.hidorikun.tasker.util.ImageUtil;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,13 +19,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.DataFormatException;
 
+@Log
 @Service
 public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
 
-    public static UserDTO userToDTO(User user) throws DataFormatException, IOException {
+    public static UserDTO userToDTO(User user) {
 
         if (user == null) {
             return null;
@@ -37,7 +39,11 @@ public class UserService implements UserDetailsService {
         result.setFirstName(user.getFirstName());
         result.setLastName(user.getLastName());
         result.setEmail(user.getEmail());
-        result.setImage(ImageUtil.decompressImage(user.getImage()));
+        try {
+            result.setImage(ImageUtil.decompressImage(user.getImage()));
+        } catch (DataFormatException e) {
+            log.info("Could not decompress image.");
+        }
 
         return result;
     }
@@ -48,13 +54,11 @@ public class UserService implements UserDetailsService {
             return null;
         }
 
-        User result = new User();
-
-        result.setUsername(dto.getUsername());
-        result.setLastName(dto.getLastName());
-        result.setFirstName(dto.getFirstName());
-
-        return result;
+        return User.builder()
+            .username(dto.getUsername())
+            .lastName(dto.getLastName())
+            .firstName(dto.getFirstName())
+            .build();
     }
 
     @Override
@@ -101,12 +105,12 @@ public class UserService implements UserDetailsService {
         }
 
         this.getUsers().stream()
-            .filter(user -> !user.getUsername().equals(userDTO.getUsername()))
-            .forEach(user -> {
-                if (user.getEmail().equals(userDTO.getEmail())) {
-                    throw new DuplicateException("This email is already taken");
-                }
-            });
+                .filter(user -> !user.getUsername().equals(userDTO.getUsername()))
+                .forEach(user -> {
+                    if (user.getEmail().equals(userDTO.getEmail())) {
+                        throw new DuplicateException("This email is already taken");
+                    }
+                });
 
         updatedUser.setFirstName(userDTO.getFirstName());
         updatedUser.setLastName(userDTO.getLastName());

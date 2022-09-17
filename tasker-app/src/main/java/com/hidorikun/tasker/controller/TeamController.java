@@ -29,14 +29,14 @@ public class TeamController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TeamDTO> getTeam(@PathVariable Long id) throws DataFormatException, IOException {
+    public ResponseEntity<TeamDTO> getTeam(@PathVariable Long id) {
         Team team = teamService.getTeam(id);
 
         return ResponseEntity.ok(teamService.teamToDTO(team));
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<TeamDTO>> getTeamsForCurrentUser() throws DataFormatException, IOException {
+    public ResponseEntity<List<TeamDTO>> getTeamsForCurrentUser() {
         List<TeamDTO> teams = new ArrayList<>();
 
         for (Team team : teamService.getTeamsForUser(userService.getCurrentUser())) {
@@ -48,7 +48,7 @@ public class TeamController {
     }
 
     @GetMapping("/project/{projectId}")
-    public ResponseEntity<List<TeamDTO>> getTeamsAssignedToProject(@PathVariable long projectId) throws DataFormatException, IOException {
+    public ResponseEntity<List<TeamDTO>> getTeamsAssignedToProject(@PathVariable long projectId) {
         List<TeamDTO> teams = new ArrayList<>();
 
         for (Team team : teamService.getTeamsForProject(projectId)) {
@@ -60,7 +60,7 @@ public class TeamController {
     }
 
     @GetMapping("/{teamId}/members")
-    public ResponseEntity<List<UserDTO>> getTeamMembers(@PathVariable long teamId) throws DataFormatException, IOException {
+    public ResponseEntity<List<UserDTO>> getTeamMembers(@PathVariable long teamId) {
         List<UserDTO> members = new ArrayList<>();
 
         for (User user : userService.getUsersForTeam(teamId)) {
@@ -72,7 +72,7 @@ public class TeamController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<TeamDTO> addTeam(@RequestBody TeamDTO newTeam) throws Exception {
+    public ResponseEntity<TeamDTO> addTeam(@RequestBody TeamDTO newTeam) {
         Team team = teamService.addTeam(this.teamService.dtoToTeam(newTeam));
 
         return ResponseEntity.ok(teamService.teamToDTO(team));
@@ -82,7 +82,7 @@ public class TeamController {
     public ResponseEntity<TeamDTO> requestMember(@RequestBody ParticipationRequestDTO request) throws Exception {
         teamService.requestMember(request);
 
-        return ResponseEntity.ok(new TeamDTO());
+        return ResponseEntity.ok(TeamDTO.builder().build());
     }
 
     @PostMapping("/confirmMember")

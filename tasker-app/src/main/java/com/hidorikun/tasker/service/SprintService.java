@@ -1,9 +1,9 @@
 package com.hidorikun.tasker.service;
 
 import com.hidorikun.tasker.errorhandling.SprintActivationException;
+import com.hidorikun.tasker.model.dto.SprintDTO;
 import com.hidorikun.tasker.model.entity.Sprint;
 import com.hidorikun.tasker.model.entity.Task;
-import com.hidorikun.tasker.model.dto.SprintDTO;
 import com.hidorikun.tasker.repository.SprintRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +23,22 @@ public class SprintService {
 
     @Autowired
     private SprintRepository sprintRepository;
+
+    public static SprintDTO sprintToDTO(Sprint sprint) {
+
+        if (sprint == null) {
+            return null;
+        }
+
+        return SprintDTO.builder()
+            .id(sprint.getId())
+            .name(sprint.getName())
+            .active(sprint.isActive())
+            .number(sprint.getNumber())
+            .teamId(sprint.getTeam().getId())
+            .tasksIds(sprint.getTasks().stream().map(Task::getId).collect(Collectors.toSet()))
+            .build();
+    }
 
     @Transactional
     public Sprint addSprint(Long teamId) {
@@ -116,24 +132,6 @@ public class SprintService {
         if (!sprintRepository.existsActiveSprintForTeam(sprint.getTeam().getId())) {
             throw new SprintActivationException("Only active sprints can be deactivated");
         }
-    }
-
-    public static SprintDTO sprintToDTO(Sprint sprint) {
-
-        if (sprint == null) {
-            return null;
-        }
-
-        SprintDTO result = new SprintDTO();
-
-        result.setId(sprint.getId());
-        result.setName(sprint.getName());
-        result.setActive(sprint.isActive());
-        result.setNumber(sprint.getNumber());
-        result.setTeamId(sprint.getTeam().getId());
-        result.setTasksIds(sprint.getTasks().stream().map(Task::getId).collect(Collectors.toSet()));
-
-        return result;
     }
 
     public Sprint dtoToSprint(SprintDTO dto) {

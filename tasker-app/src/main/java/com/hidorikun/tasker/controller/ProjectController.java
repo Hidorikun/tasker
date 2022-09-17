@@ -75,7 +75,7 @@ public class ProjectController {
     public ResponseEntity<ProjectDTO> requestAdmin(@RequestBody ParticipationRequestDTO request) throws MessagingException {
         projectService.requestAdmin(request);
 
-        return ResponseEntity.ok(new ProjectDTO());
+        return ResponseEntity.ok(ProjectDTO.builder().build());
     }
 
     @PostMapping("/confirmAdmin")

@@ -1,11 +1,14 @@
 package com.hidorikun.tasker.model.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
+@Data
 @Entity
 public class Project {
 
@@ -39,52 +42,5 @@ public class Project {
     public Project() {
         this.teams = new HashSet<>();
         this.admins = new HashSet<>();
-    }
-
-    public Project(String name, String shortDescription) {
-        this.name = name;
-        this.shortDescription = shortDescription;
-        this.teams = new HashSet<>();
-        this.admins = new HashSet<>();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getShortDescription() {
-        return shortDescription;
-    }
-
-    public void setShortDescription(String shortDescription) {
-        this.shortDescription = shortDescription;
-    }
-
-    public Set<Team> getTeams() {
-        return teams;
-    }
-
-    public void setTeams(Set<Team> teams) {
-        this.teams = teams;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Set<User> getAdmins() {
-        return admins;
-    }
-
-    public void setAdmins(Set<User> admins) {
-        this.admins = admins;
     }
 }

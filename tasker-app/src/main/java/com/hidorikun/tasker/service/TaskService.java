@@ -1,13 +1,12 @@
 package com.hidorikun.tasker.service;
 
 import com.hidorikun.tasker.model.dto.CommentDTO;
+import com.hidorikun.tasker.model.dto.TaskDTO;
 import com.hidorikun.tasker.model.dto.TaskTypeCountDTO;
-import com.hidorikun.tasker.model.entity.Comment;
 import com.hidorikun.tasker.model.entity.Sprint;
 import com.hidorikun.tasker.model.entity.Task;
 import com.hidorikun.tasker.model.entity.User;
 import com.hidorikun.tasker.model.enums.TaskState;
-import com.hidorikun.tasker.model.dto.TaskDTO;
 import com.hidorikun.tasker.model.enums.TaskType;
 import com.hidorikun.tasker.repository.TaskRepository;
 import com.hidorikun.tasker.util.DateUtil;
@@ -17,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.zip.DataFormatException;
 
 @Service
@@ -158,33 +158,31 @@ public class TaskService {
         return taskRatio;
     }
 
-    public TaskDTO taskToDTO(Task task) throws DataFormatException, IOException {
+    public TaskDTO taskToDTO(Task task) {
 
         if (task == null) {
             return null;
         }
 
-        TaskDTO dto = new TaskDTO();
+        Set<CommentDTO> comments = commentService.getCommentsForTask(task.getId()).stream()
+                .map(CommentService::commentToDTO).collect(Collectors.toSet());
 
-        dto.setId(task.getId());
-        dto.setSummary(task.getSummary());
-        dto.setDescription(task.getDescription());
-        dto.setSprintId(task.getSprint().getId());
-        dto.setState(task.getState());
-        dto.setPosition(task.getPosition());
-        dto.setType(task.getType());
-        dto.setReporter(UserService.userToDTO(task.getReporter()));
-        dto.setAssignee(UserService.userToDTO(task.getAssignee()));
-        dto.setEstimation(task.getEstimation());
+        TaskDTO dto = TaskDTO.builder()
+            .id(task.getId())
+            .summary(task.getSummary())
+            .description(task.getDescription())
+            .sprintId(task.getSprint().getId())
+            .state(task.getState())
+            .position(task.getPosition())
+            .type(task.getType())
+            .reporter(UserService.userToDTO(task.getReporter()))
+            .assignee(UserService.userToDTO(task.getAssignee()))
+            .estimation(task.getEstimation())
+            .comments(comments)
+            .createdOn(task.getCreatedOn())
+            .closedOn(task.getClosedOn())
+            .build();
 
-        Set<CommentDTO> comments = new HashSet<>();
-        for (Comment comment : commentService.getCommentsForTask(task.getId())) {
-            comments.add(CommentService.commentToDTO(comment));
-        }
-
-        dto.setComments(comments);
-        dto.setCreatedOn(task.getCreatedOn());
-        dto.setClosedOn(task.getClosedOn());
 
         return dto;
     }

@@ -2,6 +2,7 @@ package com.hidorikun.tasker.errorhandling;
 
 import com.hidorikun.tasker.controller.AuthController;
 import com.hidorikun.tasker.model.dto.ErrorResponseDTO;
+import lombok.extern.java.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -17,10 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
+@Log
 @ControllerAdvice
-public class CustomExceptionHandler extends ResponseEntityExceptionHandler
-{
-    private static final Logger log = LoggerFactory.getLogger(AuthController.class);
+public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {

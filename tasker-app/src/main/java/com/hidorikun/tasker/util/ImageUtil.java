@@ -2,7 +2,6 @@ package com.hidorikun.tasker.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -40,7 +39,7 @@ public class ImageUtil {
         return outputStream.toByteArray();
     }
 
-    public static byte[] decompressImage(byte[] data) throws DataFormatException, IOException {
+    public static byte[] decompressImage(byte[] data) throws DataFormatException {
         log.debug("Decompressing image ...");
 
         if (data == null) {
@@ -57,7 +56,11 @@ public class ImageUtil {
             outputStream.write(buffer, 0, count);
         }
 
-        outputStream.close();
+        try {
+            outputStream.close();
+        } catch (IOException e) {
+            log.info("Could not close stream when decompressing image", e);
+        }
 
         log.debug("Image compressed size  : " + data.length);
         log.debug("Image decompressed size: " + outputStream.toByteArray().length);

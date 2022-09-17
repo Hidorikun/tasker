@@ -23,6 +23,6 @@ public interface SprintRepository extends CrudRepository<Sprint, Long> {
     boolean existsActiveSprintForTeam(@Param("teamId") Long teamId);
 
     @Query("SELECT s FROM Sprint AS s INNER JOIN s.team AS t WHERE t.id = :teamId AND s.active = 1")
-    List<Sprint> getActiveSprintForTeam(@Param("teamId") Long teamId);
+    Sprint getActiveSprintForTeam(@Param("teamId") Long teamId);
 }
 
