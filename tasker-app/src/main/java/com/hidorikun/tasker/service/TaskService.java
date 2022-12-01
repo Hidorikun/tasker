@@ -164,10 +164,13 @@ public class TaskService {
             return null;
         }
 
-        Set<CommentDTO> comments = commentService.getCommentsForTask(task.getId()).stream()
-                .map(CommentService::commentToDTO).collect(Collectors.toSet());
+        Set<CommentDTO> comments = commentService
+                .getCommentsForTask(task.getId())
+                .stream()
+                .map(CommentService::commentToDTO)
+                .collect(Collectors.toSet());
 
-        TaskDTO dto = TaskDTO.builder()
+        return TaskDTO.builder()
             .id(task.getId())
             .summary(task.getSummary())
             .description(task.getDescription())
@@ -182,9 +185,6 @@ public class TaskService {
             .createdOn(task.getCreatedOn())
             .closedOn(task.getClosedOn())
             .build();
-
-
-        return dto;
     }
 
     public Task dtoToTask(TaskDTO dto) {

@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.zip.DataFormatException;
 
 @Service
 public class CommentService {
@@ -58,12 +56,10 @@ public class CommentService {
             return null;
         }
 
-        Comment result = new Comment();
-
-        result.setContent(dto.getContent());
-        result.setTask(taskService.getTask(dto.getTaskId()));
-
-        return result;
+        return Comment.builder()
+                .content(dto.getContent())
+                .task(taskService.getTask(dto.getTaskId()))
+                .build();
     }
 
 }

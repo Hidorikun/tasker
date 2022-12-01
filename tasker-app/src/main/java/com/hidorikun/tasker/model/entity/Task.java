@@ -2,7 +2,10 @@ package com.hidorikun.tasker.model.entity;
 
 import com.hidorikun.tasker.model.enums.TaskState;
 import com.hidorikun.tasker.model.enums.TaskType;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -12,8 +15,11 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
 @Entity
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
 public class Task {
 
     @Id
@@ -24,7 +30,7 @@ public class Task {
     @Size(max = 255)
     private String summary;
 
-    @Column(columnDefinition="TEXT")
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)

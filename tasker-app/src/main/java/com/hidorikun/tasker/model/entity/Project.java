@@ -1,6 +1,6 @@
 package com.hidorikun.tasker.model.entity;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -8,8 +8,11 @@ import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
 @Entity
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
 public class Project {
 
     @Id
