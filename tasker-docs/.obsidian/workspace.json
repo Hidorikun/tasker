@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Docker.md",
+                "file": "How to setup.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Docker.md",
+                "file": "How to setup.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Docker.md",
+                "file": "How to setup.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Docker.md"
+                "file": "How to setup.md"
               }
             }
           }
@@ -148,13 +148,13 @@
   },
   "active": "7091d1f806023645",
   "lastOpenFiles": [
-    "Relational Database Service (RDS).md",
+    "Start tasker-app from Intellij.md",
     "Posibilitiese of improvement.md",
     "Docker.md",
-    "Untitled.md",
-    "Untitled.canvas",
     "How to setup.md",
-    "Start tasker-app from Intellij.md",
-    "Hosting online.md"
+    "Hosting online.md",
+    "Relational Database Service (RDS).md",
+    "Untitled.md",
+    "Untitled.canvas"
   ]
 }

@@ -1,5 +1,5 @@
 ### tasker-web
-- clean install 
+- npm clean install 
 - ng serve
 
 
