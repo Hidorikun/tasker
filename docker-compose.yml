@@ -1,34 +1,41 @@
 version: '3'
 
 services:
-  
-  db:
-    image: mysql
-    command: --default-authentication-plugin=mysql_native_password
+  tasker-db:
+    image: mariadb
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: asdf
+      MYSQL_ROOT_PASSWORD: gvele
+      MYSQL_DATABASE: tasker
+      MYSQL_USER: gvele
+      MYSQL_PASSWORD: gvele
     ports:
-      - 3306:3306
-     
+      - 3307:3306
+    networks:
+      - some-net
+
   tasker-app:
     container_name: tasker-app
     build: ./tasker-app
     environment:
       spring.profiles.active: dev
-      hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
-      spring.datasource.url: "jdbc:mysql://db:3306/tasker?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true"
+      SPRING_DATASOURCE_URL: jdbc:mysql://tasker-db:3306/tasker?autoReconnect=true&useSSL=false
     ports:
       - 4040:4040
-    depends_on: 
-      - db
-     
-# tasker-web:
-#   container_name: tasker-web
-#   build: ./tasker-web/package/main    
-#    volumes:
-#      - ./tasker-web:/usr/src/tasker-web  
-#    ports:
-#      - 4200:4200
-    
-      
+    depends_on:
+      - tasker-db
+    networks:
+      - some-net
+
+  tasker-web:
+    container_name: tasker-web
+    restart: always
+    build: ./tasker-web/main
+    ports:
+      - 4200:4200
+    networks:
+      - some-net
+
+networks:
+  some-net:
+    driver: bridge

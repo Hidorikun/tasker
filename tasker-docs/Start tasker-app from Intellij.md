@@ -1,4 +1,4 @@
-``` VM_OPTIONS
+``` parameters
 spring.profiles.active=dev
 ```
 

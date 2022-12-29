@@ -1,7 +1,9 @@
-FROM openjdk:latest
+FROM maven:3.8.2-jdk-8
 
 EXPOSE 4040
 
-ADD target/tasker.jar tasker.jar
+WORKDIR /tasker-app
+COPY . .
+RUN mvn clean install
 
-ENTRYPOINT ["java", "-jar", "tasker.jar"]
+CMD mvn spring-boot:run -Dspring-boot.run.profiles=dev

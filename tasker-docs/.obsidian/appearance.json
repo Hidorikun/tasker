@@ -1,3 +1,5 @@
 {
-  "baseFontSize": 20
+  "baseFontSize": 20,
+  "accentColor": "",
+  "showViewHeader": true
 }

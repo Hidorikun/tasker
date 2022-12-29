@@ -1,0 +1,9 @@
+{
+  "/api/*": {
+    "target": "http://tasker-app:4040",
+    "secure": false,
+    "pathRewrite": { "^/api": "" },
+    "crossOrigin": true,
+    "logLevel": "debug"
+  }
+}
