@@ -11,21 +11,16 @@ services:
       MYSQL_PASSWORD: gvele
     ports:
       - 3307:3306
-    networks:
-      - some-net
 
   tasker-app:
     container_name: tasker-app
     build: ./tasker-app
     environment:
-      spring.profiles.active: dev
       SPRING_DATASOURCE_URL: jdbc:mysql://tasker-db:3306/tasker?autoReconnect=true&useSSL=false
     ports:
       - 4040:4040
     depends_on:
       - tasker-db
-    networks:
-      - some-net
 
   tasker-web:
     container_name: tasker-web
@@ -33,9 +28,3 @@ services:
     build: ./tasker-web/main
     ports:
       - 4200:4200
-    networks:
-      - some-net
-
-networks:
-  some-net:
-    driver: bridge
