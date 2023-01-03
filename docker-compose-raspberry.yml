@@ -8,8 +8,6 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/tasker?autoReconnect=true&useSSL=false
     ports:
       - 4040:4040
-    depends_on:
-      - tasker-db
 
   tasker-web:
     container_name: tasker-web
