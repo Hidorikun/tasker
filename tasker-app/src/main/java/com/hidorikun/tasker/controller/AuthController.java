@@ -4,6 +4,7 @@ import com.hidorikun.tasker.model.dto.LoginDTO;
 import com.hidorikun.tasker.model.dto.LoginResponseDTO;
 import com.hidorikun.tasker.model.dto.RegisterDTO;
 import com.hidorikun.tasker.model.entity.User;
+import com.hidorikun.tasker.service.PasswordEncodingService;
 import com.hidorikun.tasker.service.UserService;
 import com.hidorikun.tasker.util.JwtUtil;
 import org.slf4j.Logger;
@@ -24,18 +25,24 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtTokenUtil;
     private final UserService userService;
+    private final PasswordEncodingService passwordEncodingService;
 
-    public AuthController(AuthenticationManager authenticationManager, JwtUtil jwtTokenUtil, UserService userService) {
+    public AuthController(AuthenticationManager authenticationManager,
+                          JwtUtil jwtTokenUtil, UserService userService,
+                          PasswordEncodingService passwordEncodingService) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtil = jwtTokenUtil;
         this.userService = userService;
+        this.passwordEncodingService = passwordEncodingService;
     }
 
     @PostMapping(value = "/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginDTO loginDTO) {
 
+        String encodedPassword = this.passwordEncodingService.encode(loginDTO.getPassword());
+
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword())
+                new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), encodedPassword)
         );
 
         final UserDetails userDetails = userService
@@ -48,13 +55,15 @@ public class AuthController {
 
     @PostMapping(value = "/register")
     public ResponseEntity<LoginResponseDTO> register(@RequestBody RegisterDTO registerDTO) {
+        String encodedPassword = this.passwordEncodingService.encode(registerDTO.getPassword());
+
         User newUser = User.builder()
-            .username(registerDTO.getUsername())
-            .firstName(registerDTO.getFirstName())
-            .lastName(registerDTO.getLastName())
-            .email(registerDTO.getEmail())
-            .password(registerDTO.getPassword())
-            .build();
+                .username(registerDTO.getUsername())
+                .firstName(registerDTO.getFirstName())
+                .lastName(registerDTO.getLastName())
+                .email(registerDTO.getEmail())
+                .password(encodedPassword)
+                .build();
 
         userService.addUser(newUser);
 
